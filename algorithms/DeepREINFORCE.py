@@ -3,7 +3,7 @@
 # Email: aqeel.anwar@gatech.edu
 
 import sys, cv2
-import nvidia_smi
+# from py3nvml import nvidia_smi
 from network.agent import PedraAgent
 from unreal_envs.initial_positions import *
 from os import getpid
@@ -234,8 +234,8 @@ def DeepREINFORCE(cfg, env_process, env_folder):
                                                 algorithm_cfg.gamma, epi_num[name_agent])
                                 c = agent[name_agent].network_model.get_vars()[15]
                                 agent[name_agent].network_model.log_to_tensorboard(tag='weight', group=name_agent,
-                                                                                  value=c[0],
-                                                                                  index=epi_num[name_agent])
+                                                                                   value=c[0],
+                                                                                   index=epi_num[name_agent])
 
                                 data_tuple[name_agent] = []
                                 epi_num[name_agent] += 1
@@ -251,7 +251,7 @@ def DeepREINFORCE(cfg, env_process, env_folder):
 
                                 if epi_num[name_agent] % 100 == 0:
                                     agent[name_agent].network_model.save_network(algorithm_cfg.network_path,
-                                                                                epi_num[name_agent])
+                                                                                 epi_num[name_agent])
 
 
                         else:
@@ -264,14 +264,14 @@ def DeepREINFORCE(cfg, env_process, env_folder):
                             tag_mem = 'GPU' + str(i) + '-Memory-GB'
                             tag_util = 'GPU' + str(i) + 'Utilization-%'
                             agent[name_agent].network_model.log_to_tensorboard(tag=tag_mem, group='SystemStats',
-                                                                              value=gpu_memory[i],
-                                                                              index=iter)
+                                                                               value=gpu_memory[i],
+                                                                               index=iter)
                             agent[name_agent].network_model.log_to_tensorboard(tag=tag_util, group='SystemStats',
-                                                                              value=gpu_utilization[i],
-                                                                              index=iter)
+                                                                               value=gpu_utilization[i],
+                                                                               index=iter)
                         agent[name_agent].network_model.log_to_tensorboard(tag='Memory-GB', group='SystemStats',
-                                                                          value=sys_memory,
-                                                                          index=iter)
+                                                                           value=sys_memory,
+                                                                           index=iter)
 
                         s_log = '{:<6s} - Level {:>2d} - Iter: {:>6d}/{:<5d} {:<8s}-{:>5s} lr: {:>1.8f} Ret = {:>+6.4f} Last Crash = {:<5d} t={:<1.3f} SF = {:<5.4f}  Reward: {:<+1.4f}  '.format(
                             name_agent,

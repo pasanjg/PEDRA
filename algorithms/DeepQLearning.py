@@ -3,7 +3,7 @@
 # Email: aqeel.anwar@gatech.edu
 
 import sys, cv2
-import nvidia_smi
+# from py3nvml import nvidia_smi
 from network.agent import PedraAgent
 from unreal_envs.initial_positions import *
 from os import getpid

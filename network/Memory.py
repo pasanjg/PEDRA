@@ -2,8 +2,10 @@
 
 from network.SumTree import SumTree
 import random
-#-------------------- MEMORY --------------------------
-class Memory:   # stored as ( s, a, r, s_ ) in SumTree
+
+
+# -------------------- MEMORY --------------------------
+class Memory:  # stored as ( s, a, r, s_ ) in SumTree
     e = 0.01
     a = 0.6
 
@@ -27,7 +29,7 @@ class Memory:   # stored as ( s, a, r, s_ ) in SumTree
 
             s = random.uniform(a, b)
             (idx, p, data) = self.tree.get(s)
-            batch.append( (idx, data) )
+            batch.append((idx, data))
 
         return batch
 

@@ -1,12 +1,13 @@
 import numpy
 
+
 class SumTree:
     write = 0
 
     def __init__(self, capacity):
         self.capacity = capacity
-        self.tree = numpy.zeros( 2*capacity - 1 )
-        self.data = numpy.zeros( capacity, dtype=object )
+        self.tree = numpy.zeros(2 * capacity - 1)
+        self.data = numpy.zeros(capacity, dtype=object)
 
     def _propagate(self, idx, change):
         parent = (idx - 1) // 2
@@ -26,7 +27,7 @@ class SumTree:
         if s <= self.tree[left]:
             return self._retrieve(left, s)
         else:
-            return self._retrieve(right, s-self.tree[left])
+            return self._retrieve(right, s - self.tree[left])
 
     def total(self):
         return self.tree[0]

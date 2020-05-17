@@ -8,6 +8,7 @@ from network.loss_functions import huber_loss, mse_loss
 from network.network import *
 from numpy import linalg as LA
 
+
 class initialize_network_DeepQLearning():
     def __init__(self, cfg, name, vehicle_name):
         self.g = tf.Graph()
@@ -59,10 +60,8 @@ class initialize_network_DeepQLearning():
             print('Loading weights from: ', cfg.custom_load_path)
             self.load_network(cfg.custom_load_path)
 
-
     def get_vars(self):
         return self.sess.run(self.all_vars)
-
 
     def initialize_graphs_with_average(self, agent, agent_on_same_network):
         values = {}
@@ -83,14 +82,12 @@ class initialize_network_DeepQLearning():
                 # all_assign[name_agent].append(tf.assign(var[name_agent][i], mean_val))
                 var[name_agent][i].load(mean_val, agent[name_agent].network_model.sess)
 
-
     def Q_val(self, xs):
         target = np.zeros(shape=[xs.shape[0]], dtype=np.float32)
         actions = np.zeros(dtype=int, shape=[xs.shape[0]])
         return self.sess.run(self.predict,
                              feed_dict={self.batch_size: xs.shape[0], self.learning_rate: 0, self.X1: xs,
                                         self.target: target, self.actions: actions})
-
 
     def train_n(self, xs, ys, actions, batch_size, dropout_rate, lr, epsilon, iter):
         _, loss, Q = self.sess.run([self.train, self.loss, self.predict],
@@ -104,7 +101,6 @@ class initialize_network_DeepQLearning():
         self.log_to_tensorboard(tag='Learning Rate', group=self.vehicle_name, value=lr, index=iter)
         self.log_to_tensorboard(tag='MeanQ', group=self.vehicle_name, value=meanQ, index=iter)
         self.log_to_tensorboard(tag='MaxQ', group=self.vehicle_name, value=maxQ, index=iter)
-
 
     def action_selection(self, state):
         target = np.zeros(shape=[state.shape[0]], dtype=np.float32)
@@ -124,23 +120,19 @@ class initialize_network_DeepQLearning():
 
         return action.astype(int)
 
-
     def log_to_tensorboard(self, tag, group, value, index):
         summary = tf.Summary()
         tag = group + '/' + tag
         summary.value.add(tag=tag, simple_value=value)
         self.stat_writer.add_summary(summary, index)
 
-
     def save_network(self, save_path, episode=''):
         save_path = save_path + self.vehicle_name + '/' + self.vehicle_name + '_' + str(episode)
         self.saver.save(self.sess, save_path)
         print('Model Saved: ', save_path)
 
-
     def load_network(self, load_path):
         self.saver.restore(self.sess, load_path)
-
 
     def get_weights(self):
         xs = np.zeros(shape=(32, 227, 227, 3))
@@ -150,7 +142,6 @@ class initialize_network_DeepQLearning():
                              feed_dict={self.batch_size: xs.shape[0], self.learning_rate: 0,
                                         self.X1: xs,
                                         self.target: ys, self.actions: actions})
-
 
 
 ###########################################################################
@@ -345,11 +336,3 @@ class initialize_network_DeepREINFORCE():
 
     def load_network(self, load_path):
         self.saver.restore(self.sess, load_path)
-
-
-
-
-
-
-
-

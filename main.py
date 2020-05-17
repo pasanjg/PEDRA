@@ -1,15 +1,17 @@
+import importlib
+import json
+
 from aux_functions import *
 from configs.read_cfg import read_cfg
-import importlib, json
 from unreal_envs.initial_positions import *
+
 # from aux_functions import *
 # TF Debug message suppressed
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 
-
 def generate_json(cfg):
-    flag  = True
+    flag = True
     path = os.path.expanduser('~\Documents\Airsim')
     if not os.path.exists(path):
         os.makedirs(path)
@@ -25,11 +27,12 @@ def generate_json(cfg):
         data['LocalHostIp'] = cfg.ip_address
         data['SimMode'] = cfg.SimMode
         data['ClockSpeed'] = cfg.ClockSpeed
-        data["ViewMode"]= "NoDisplay"
+        data["ViewMode"] = "NoDisplay"
         PawnPaths = {}
         PawnPaths["DefaultQuadrotor"] = {}
-        PawnPaths["DefaultQuadrotor"]['PawnBP'] = ''' Class'/AirSim/Blueprints/BP_''' + cfg.drone + '''.BP_''' + cfg.drone + '''_C' '''
-        data['PawnPaths']=PawnPaths
+        PawnPaths["DefaultQuadrotor"][
+            'PawnBP'] = ''' Class'/AirSim/Blueprints/BP_''' + cfg.drone + '''.BP_''' + cfg.drone + '''_C' '''
+        data['PawnPaths'] = PawnPaths
 
         # Define agents:
         _, reset_array_raw, _, _ = initial_positions(cfg.env_name, num_agents=cfg.num_agents)
@@ -51,7 +54,7 @@ def generate_json(cfg):
             data["Vehicles"] = Vehicles
 
         CameraDefaults = {}
-        CameraDefaults['CaptureSettings']=[]
+        CameraDefaults['CaptureSettings'] = []
         # CaptureSettings=[]
 
         camera = {}
@@ -80,7 +83,7 @@ def generate_json(cfg):
 if __name__ == '__main__':
     # Read the config file
     cfg = read_cfg(config_filename='configs/config.cfg', verbose=True)
-    cfg.num_agents=1
+    cfg.num_agents = 1
     can_proceed = generate_json(cfg)
     # Check if NVIDIA GPU is available
     try:
@@ -99,8 +102,3 @@ if __name__ == '__main__':
             eval(name)
         else:
             print('Use keyboard to navigate')
-
-
-
-
-

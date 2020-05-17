@@ -36,7 +36,7 @@ def read_cfg(config_filename='configs/main.cfg', verbose=False):
     cfg = DotMap()
 
     if verbose:
-        hyphens = '-' * int((80 - len(config_filename))/2)
+        hyphens = '-' * int((80 - len(config_filename)) / 2)
         print(hyphens + ' ' + config_filename + ' ' + hyphens)
 
     for section_name in parser.sections():
@@ -51,12 +51,13 @@ def read_cfg(config_filename='configs/main.cfg', verbose=False):
 
     return cfg
 
+
 def update_algorithm_cfg(algorithm_cfg, cfg):
-    if algorithm_cfg.distributed_algo=='GlobalLearningGlobalUpdate-MA':
-        algorithm_cfg.wait_before_train = algorithm_cfg.wait_before_train*cfg.num_agents
+    if algorithm_cfg.distributed_algo == 'GlobalLearningGlobalUpdate-MA':
+        algorithm_cfg.wait_before_train = algorithm_cfg.wait_before_train * cfg.num_agents
         algorithm_cfg.max_iters = algorithm_cfg.max_iters * cfg.num_agents
         algorithm_cfg.buffer_len = algorithm_cfg.buffer_len * cfg.num_agents
-        algorithm_cfg.epsilon_saturation = algorithm_cfg.epsilon_saturation*cfg.num_agents
-        algorithm_cfg.update_target_interval = algorithm_cfg.update_target_interval*cfg.num_agents
+        algorithm_cfg.epsilon_saturation = algorithm_cfg.epsilon_saturation * cfg.num_agents
+        algorithm_cfg.update_target_interval = algorithm_cfg.update_target_interval * cfg.num_agents
 
     return algorithm_cfg
